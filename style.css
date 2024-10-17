@@ -1,0 +1,76 @@
+#tablesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.table-box {
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 200px;
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.delete-table {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: red;
+}
+
+.edit-table {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: blue;
+}
+
+.delete-column {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px;
+  width: 38px !important;
+  height: 38px !important;
+  background-color: white;
+  border-color: red;
+}
+
+.column-container {
+}
+
+.move-area {
+  width: 38px;
+  height: 38px;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  padding: 6px 12px 6px 12px;
+}
+
+.move-area:hover {
+  color: white;
+  background-color: #007bff;
+}
+
+.move-up,
+.move-down {
+}
+
+#relationsContainer {
+  position: fixed;
+  right: 0;
+  top: 60px;
+  width: 300px;
+  height: calc(100% - 60px);
+  overflow-y: auto;
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+}

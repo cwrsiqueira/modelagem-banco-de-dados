@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Modeler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="mt-4">Database Modeler</h2>
+        <button id="createTableBtn" class="btn btn-primary mt-3">Criar Tabela</button>
+        <button id="printBtn" class="btn btn-info mt-3">Imprimir Modelagem</button>
+        <button id="generateSQLiteBtn" class="btn btn-secondary mt-3">Gerar SQL (SQLite)</button>
+        <button id="generateMySQLBtn" class="btn btn-secondary mt-3">Gerar SQL (MySQL)</button>
+
+        <!-- Modal para Criar/Editar Tabela -->
+        <div class="modal" id="createTableModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle">Criar Nova Tabela</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="tableForm">
+                            <div class="form-group">
+                                <label for="tableName">Nome da Tabela:</label>
+                                <input type="text" class="form-control" id="tableName" required>
+                            </div>
+                            <div id="columnsContainer" style="width:100%;">
+                                <!-- Coluna padrão ID -->
+                                <div class="form-group column-container">
+                                    <label>Nome da Coluna:</label>
+                                    <input type="text" class="form-control mb-2 column-name" value="ID" readonly>
+                                    <label>Tipo:</label>
+                                    <select class="form-control mb-2 column-type" disabled>
+                                        <option value="integer" selected>Integer</option>
+                                    </select>
+                                    <label><input type="checkbox" class="primary-key" checked disabled> Chave
+                                        Primária</label>
+                                </div>
+                            </div>
+                            <button type="button" id="addColumnBtn" class="btn btn-secondary btn-sm mb-3">Adicionar
+                                Coluna</button>
+                            <button type="submit" class="btn btn-success">Salvar Tabela</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tablesContainer" class="mt-5">
+            <!-- Tabelas Criadas Aparecem Aqui -->
+        </div>
+    </div>
+
+    <!-- Container para Relações -->
+    <div id="relationsContainer">
+        <h4>Relações entre Tabelas</h4>
+        <ul id="relationsList">
+            <!-- Relações aparecerão aqui -->
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
