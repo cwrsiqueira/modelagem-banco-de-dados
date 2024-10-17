@@ -6,61 +6,64 @@ $(document).ready(function () {
     $("#createTableModal").modal("show");
     $("#modalTitle").text("Criar Nova Tabela");
     $("#columnsContainer").html(`
-        <!-- Coluna padrão ID -->
-    <div class="form-group column-container">
-        <div class="row align-items-end justify-content-between w-full">
-            <div class="col-3">
-                <label for="column-name">Nome da Coluna:</label>
-                <input type="text" class="form-control mb-2 column-name" value="ID" required>
-            </div>
-            <div class="col">
-                <label for="column-type">Tipo:</label>
-                <select class="form-control mb-2 column-type">
-                    <option value="int" selected>Int</option>
-                    <option value="varchar">Varchar</option>
-                    <option value="text">Text</option>
-                    <option value="date">Date</option>
-                    <option value="tinyint">TinyInt</option>
-                    <option value="bigint">BigInt</option>
-                    <option value="decimal">Decimal</option>
-                    <option value="float">Float</option>
-                    <option value="boolean">Boolean</option>
-                    <option value="datetime">Datetime</option>
-                    <option value="timestamp">Timestamp</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="primary-key" checked> Chave Primária</label>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="foreign-key"> Chave Estrangeira</label>
-            </div>
-            <div class="foreign-key-options" style="display: none;">
-                <div class="col">
-                    <label>Tabela Referenciada:</label>
-                    <select class="form-control mb-2 foreign-table">
-                        <!-- Tabelas serão preenchidas dinamicamente -->
-                    </select>
-                    <label>Coluna Referenciada:</label>
-                    <select class="form-control mb-2 foreign-column">
-                        <!-- Colunas serão preenchidas dinamicamente -->
-                    </select>
+        <div class="form-group column-container">
+          <div class="row align-items-end justify-content-between w-full">
+              <div class="col-3">
+                  <label for="column-name">Nome da Coluna:</label>
+                  <input type="text" class="form-control mb-2 column-name" value="ID" required>
+              </div>
+              <div class="col-2">
+                  <label for="column-type">Tipo:</label>
+                  <select class="form-control mb-2 column-type">
+                      <option value="int" selected>Int</option>
+                      <option value="varchar">Varchar</option>
+                      <option value="text">Text</option>
+                      <option value="date">Date</option>
+                      <option value="tinyint">TinyInt</option>
+                      <option value="bigint">BigInt</option>
+                      <option value="decimal">Decimal</option>
+                      <option value="float">Float</option>
+                      <option value="boolean">Boolean</option>
+                      <option value="datetime">Datetime</option>
+                      <option value="timestamp">Timestamp</option>
+                  </select>
+                  <input type="text" class="form-control mb-2 column-size" placeholder="Tamanho (ex: 255, 10,2)">
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="primary-key" checked> Chave Primária</label>
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="nullable"> Nulo</label>
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="foreign-key"> Chave Estrangeira</label>
+              </div>
+                <div class="col-2">
+                    <div class="foreign-key-options" style="display: none;">
+                      <label>Tabela Referenciada:</label>
+                      <select class="form-control mb-2 foreign-table">
+                          <!-- Tabelas serão preenchidas dinamicamente -->
+                      </select>
+                      <label>Coluna Referenciada:</label>
+                      <select class="form-control mb-2 foreign-column">
+                          <!-- Colunas serão preenchidas dinamicamente -->
+                      </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-            <div class="d-flex">
-                <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
-                <div class="move-area">
-                    <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
-                </div>
-                <div class="move-area">
-                    <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
-                </div>
-                </div>
-            </div>
+              <div class="col-2">
+                <div class="d-flex">
+                  <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
+                  <div class="move-area">
+                      <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
+                  </div>
+                  <div class="move-area">
+                      <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
+                  </div>
+                  </div>
+              </div>
+          </div>
         </div>
-    </div>
-      `); // Coluna ID padrão
+      `);
     $("#tableForm")[0].reset(); // Resetar o formulário
     editingTable = null;
     updateForeignKeyOptions();
@@ -69,59 +72,64 @@ $(document).ready(function () {
   // Adicionar nova coluna ao formulário
   $("#addColumnBtn").click(function () {
     const columnTemplate = `
-  <div class="form-group column-container">
-        <div class="row align-items-end justify-content-between w-full">
-            <div class="col-3">
-                <label for="column-name">Nome da Coluna:</label>
-                <input type="text" class="form-control mb-2 column-name" required>
-            </div>
-            <div class="col">
-                <label for="column-type">Tipo:</label>
-                <select class="form-control mb-2 column-type">
-                    <option value="int">Int</option>
-                    <option value="varchar">Varchar</option>
-                    <option value="text">Text</option>
-                    <option value="date">Date</option>
-                    <option value="tinyint">TinyInt</option>
-                    <option value="bigint">BigInt</option>
-                    <option value="decimal">Decimal</option>
-                    <option value="float">Float</option>
-                    <option value="boolean">Boolean</option>
-                    <option value="datetime">Datetime</option>
-                    <option value="timestamp">Timestamp</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="primary-key"> Chave Primária</label>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="foreign-key"> Chave Estrangeira</label>
-            </div>
-            <div class="foreign-key-options" style="display: none;">
-                <div class="col">
-                    <label>Tabela Referenciada:</label>
-                    <select class="form-control mb-2 foreign-table">
-                        <!-- Tabelas serão preenchidas dinamicamente -->
-                    </select>
-                    <label>Coluna Referenciada:</label>
-                    <select class="form-control mb-2 foreign-column">
-                        <!-- Colunas serão preenchidas dinamicamente -->
-                    </select>
+        <div class="form-group column-container">
+          <div class="row align-items-end justify-content-between w-full">
+              <div class="col-3">
+                  <label for="column-name">Nome da Coluna:</label>
+                  <input type="text" class="form-control mb-2 column-name" required>
+              </div>
+              <div class="col-2">
+                  <label for="column-type">Tipo:</label>
+                  <select class="form-control mb-2 column-type">
+                      <option value="int">Int</option>
+                      <option value="varchar">Varchar</option>
+                      <option value="text">Text</option>
+                      <option value="date">Date</option>
+                      <option value="tinyint">TinyInt</option>
+                      <option value="bigint">BigInt</option>
+                      <option value="decimal">Decimal</option>
+                      <option value="float">Float</option>
+                      <option value="boolean">Boolean</option>
+                      <option value="datetime">Datetime</option>
+                      <option value="timestamp">Timestamp</option>
+                  </select>
+                  <input type="text" class="form-control mb-2 column-size" placeholder="Tamanho (ex: 255, 10,2)">
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="primary-key"> Chave Primária</label>
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="nullable"> Nulo</label>
+              </div>
+              <div class="col-1">
+                  <label><input type="checkbox" class="foreign-key"> Chave Estrangeira</label>
+              </div>
+                <div class="col-2">
+                    <div class="foreign-key-options" style="display: none;">
+                      <label>Tabela Referenciada:</label>
+                      <select class="form-control mb-2 foreign-table">
+                          <!-- Tabelas serão preenchidas dinamicamente -->
+                      </select>
+                      <label>Coluna Referenciada:</label>
+                      <select class="form-control mb-2 foreign-column">
+                          <!-- Colunas serão preenchidas dinamicamente -->
+                      </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-            <div class="d-flex">
-                <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
-                <div class="move-area">
-                    <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
-                </div>
-                <div class="move-area">
-                    <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
-                </div>
-                </div>
-            </div>
+              <div class="col-2">
+              <div class="d-flex">
+                  <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
+                  <div class="move-area">
+                      <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
+                  </div>
+                  <div class="move-area">
+                      <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
+                  </div>
+                  </div>
+              </div>
+          </div>
         </div>
-    </div>`;
+      `;
     $("#columnsContainer").append(columnTemplate);
     updateForeignKeyOptions();
   });
@@ -181,9 +189,12 @@ $(document).ready(function () {
           const columnName = col.innerText.split(" ")[0];
           const columnType = col.innerText.match(/\(([^)]+)\)/)[1];
           const primaryKey = col.innerText.includes("[PK]")
-            ? " PRIMARY KEY"
+            ? " PRIMARY KEY AUTO_INCREMENT"
             : "";
-          sql += `  ${columnName} ${columnType}${primaryKey}${
+          const nullable = col.innerText.includes("NULL")
+            ? " NULL"
+            : " NOT NULL";
+          sql += `  ${columnName} ${columnType}${primaryKey}${nullable}${
             isLast ? "" : ","
           }\n`;
         });
@@ -206,9 +217,12 @@ $(document).ready(function () {
           const columnName = col.innerText.split(" ")[0];
           const columnType = col.innerText.match(/\(([^)]+)\)/)[1];
           const primaryKey = col.innerText.includes("[PK]")
-            ? " PRIMARY KEY"
+            ? " PRIMARY KEY AUTO_INCREMENT"
             : "";
-          sql += `  ${columnName} ${columnType}${primaryKey}${
+          const nullable = col.innerText.includes("NULL")
+            ? " NULL"
+            : " NOT NULL";
+          sql += `  ${columnName} ${columnType}${primaryKey}${nullable}${
             isLast ? "" : ","
           }\n`;
         });
@@ -289,7 +303,9 @@ $(document).ready(function () {
     $("#columnsContainer .form-group").each(function () {
       const columnName = $(this).find(".column-name").val();
       const columnType = $(this).find(".column-type").val();
+      const columnSize = $(this).find(".column-size").val();
       const primaryKey = $(this).find(".primary-key").is(":checked");
+      const nullable = $(this).find(".nullable").is(":checked");
       const foreignKey = $(this).find(".foreign-key").is(":checked");
       const foreignTable = foreignKey
         ? $(this).find(".foreign-table").val()
@@ -300,8 +316,9 @@ $(document).ready(function () {
 
       columns.push({
         name: columnName,
-        type: columnType,
+        type: columnType + (columnSize ? `(${columnSize})` : ""),
         primaryKey: primaryKey,
+        nullable: nullable,
         foreignKey: foreignKey,
         foreignTable: foreignTable,
         foreignColumn: foreignColumn,
@@ -314,31 +331,27 @@ $(document).ready(function () {
       const columnsContainer = $(editingTable).find(".columns");
       columnsContainer.html("");
       columns.forEach(function (col) {
-        columnsContainer.append(
-          `<p>${col.name} (${col.type}) ${col.primaryKey ? " [PK]" : ""} ${
-            col.foreignKey
-              ? ` [FK: ${col.foreignTable}.${col.foreignColumn}]`
-              : ""
-          }</p>`
-        );
+        columnsContainer.append(`
+            <p>${
+              col.name
+            } (${col.type}) ${col.primaryKey ? " [PK]" : ""} ${col.nullable ? " NULL" : " NOT NULL"} ${col.foreignKey ? `[FK: ${col.foreignTable}.${col.foreignColumn}]` : ""}</p>
+          `);
       });
     } else {
       // Criar visualização da nova tabela
       const tableBox = $('<div class="table-box"></div>');
-      tableBox.append(`<span class="delete-table">&times;</span>`);
+      tableBox.append('<span class="delete-table">&times;</span>');
       tableBox.append(`<h5>${tableName}</h5>`);
       const columnsContainer = $('<div class="columns"></div>');
       columns.forEach(function (col) {
-        columnsContainer.append(
-          `<p>${col.name} (${col.type}) ${col.primaryKey ? " [PK]" : ""} ${
-            col.foreignKey
-              ? ` [FK: ${col.foreignTable}.${col.foreignColumn}]`
-              : ""
-          }</p>`
-        );
+        columnsContainer.append(`
+            <p>${
+              col.name
+            } (${col.type}) ${col.primaryKey ? " [PK]" : ""} ${col.nullable ? " NULL" : " NOT NULL"} ${col.foreignKey ? `[FK: ${col.foreignTable}.${col.foreignColumn}]` : ""}</p>
+          `);
       });
       tableBox.append(columnsContainer);
-      tableBox.append(`<span class="edit-table">Editar</span>`);
+      tableBox.append('<span class="edit-table">Editar</span>');
 
       // Adicionar a tabela ao container principal
       $("#tablesContainer").append(tableBox);
@@ -375,6 +388,7 @@ $(document).ready(function () {
         const [name, typeWithKeys] = colData.split(" (");
         const type = typeWithKeys.split(")")[0];
         const primaryKey = typeWithKeys.includes("[PK]");
+        const nullable = !typeWithKeys.includes("NOT NULL");
         const foreignKey = typeWithKeys.includes("[FK]");
         let foreignTable = "";
         let foreignColumn = "";
@@ -387,88 +401,96 @@ $(document).ready(function () {
           }
         }
 
+        console.log(colData);
+
         const columnTemplate = `
-          <div class="form-group column-container">
-        <div class="row align-items-end justify-content-between w-full">
-            <div class="col-3">
-                <label for="column-name">Nome da Coluna:</label>
-                <input type="text" class="form-control mb-2 column-name" required>
-            </div>
-            <div class="col">
-                <label for="column-type">Tipo:</label>
-                <select class="form-control mb-2 column-type">
-                    <option value="int" ${
-                      type === "Int" ? "selected" : ""
-                    }>Int</option>
-                    <option value="varchar" ${
-                      type === "Varchar" ? "selected" : ""
-                    }>Varchar</option>
-                    <option value="text" ${
-                      type === "Text" ? "selected" : ""
-                    }>Text</option>
-                    <option value="date" ${
-                      type === "Date" ? "selected" : ""
-                    }>Date</option>
-                    <option value="tinyint" ${
-                      type === "TinyInt" ? "selected" : ""
-                    }>TinyInt</option>
-                    <option value="bigint" ${
-                      type === "BigInt" ? "selected" : ""
-                    }>BigInt</option>
-                    <option value="decimal" ${
-                      type === "Decimal" ? "selected" : ""
-                    }>Decimal</option>
-                    <option value="float" ${
-                      type === "Float" ? "selected" : ""
-                    }>Float</option>
-                    <option value="boolean" ${
-                      type === "Boolean" ? "selected" : ""
-                    }>Boolean</option>
-                    <option value="datetime" ${
-                      type === "Datetime" ? "selected" : ""
-                    }>Datetime</option>
-                    <option value="timestamp" ${
-                      type === "Timestamp" ? "selected" : ""
-                    }>Timestamp</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="primary-key" ${
-                  primaryKey ? "checked" : ""
-                }> Chave Primária</label>
-            </div>
-            <div class="col-2">
-                <label><input type="checkbox" class="foreign-key" ${
-                  foreignKey ? "checked" : ""
-                }> Chave Estrangeira</label>
-            </div>
-            <div class="foreign-key-options" style="display: ${
-              foreignKey ? "block" : "none"
-            };">
-                <div class="col">
-                    <label>Tabela Referenciada:</label>
-                    <select class="form-control mb-2 foreign-table">
-                        <!-- Tabelas serão preenchidas dinamicamente -->
-                    </select>
-                    <label>Coluna Referenciada:</label>
-                    <select class="form-control mb-2 foreign-column">
-                        <!-- Colunas serão preenchidas dinamicamente -->
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-            <div class="d-flex">
-                <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
-                <div class="move-area">
-                    <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
-                </div>
-                <div class="move-area">
-                    <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>`;
+            <div class="form-group column-container">
+              <div class="row align-items-end justify-content-between w-full">
+                  <div class="col-3">
+                      <label for="column-name">Nome da Coluna:</label>
+                      <input type="text" class="form-control mb-2 column-name" value="${name}" required>
+                  </div>
+                  <div class="col-2">
+                      <label for="column-type">Tipo:</label>
+                      <select class="form-control mb-2 column-type">
+                          <option value="int" ${
+                            type === "Int" ? "selected" : ""
+                          }>Int</option>
+                          <option value="varchar" ${
+                            type === "Varchar" ? "selected" : ""
+                          }>Varchar</option>
+                          <option value="text" ${
+                            type === "Text" ? "selected" : ""
+                          }>Text</option>
+                          <option value="date" ${
+                            type === "Date" ? "selected" : ""
+                          }>Date</option>
+                          <option value="tinyint" ${
+                            type === "TinyInt" ? "selected" : ""
+                          }>TinyInt</option>
+                          <option value="bigint" ${
+                            type === "BigInt" ? "selected" : ""
+                          }>BigInt</option>
+                          <option value="decimal" ${
+                            type === "Decimal" ? "selected" : ""
+                          }>Decimal</option>
+                          <option value="float" ${
+                            type === "Float" ? "selected" : ""
+                          }>Float</option>
+                          <option value="boolean" ${
+                            type === "Boolean" ? "selected" : ""
+                          }>Boolean</option>
+                          <option value="datetime" ${
+                            type === "Datetime" ? "selected" : ""
+                          }>Datetime</option>
+                          <option value="timestamp" ${
+                            type === "Timestamp" ? "selected" : ""
+                          }>Timestamp</option>
+                      </select>
+                      <input type="text" class="form-control mb-2 column-size" placeholder="Tamanho (ex: 255, 10,2)">
+                  </div>
+                  <div class="col-1">
+                      <label><input type="checkbox" class="primary-key" ${
+                        primaryKey ? "checked" : ""
+                      }> Chave Primária</label>
+                  </div>
+                  <div class="col-1">
+                      <label><input type="checkbox" class="nullable" ${
+                        nullable ? "checked" : ""
+                      }> Nulo</label>
+                  </div>
+                  <div class="col-1">
+                      <label><input type="checkbox" class="foreign-key" ${
+                        foreignKey ? "checked" : ""
+                      }> Chave Estrangeira</label>
+                  </div>
+                    <div class="col-2">
+                        <div class="foreign-key-options" style="display: ${
+                          foreignKey ? "block" : "none"
+                        };">
+                          <label>Tabela Referenciada:</label>
+                          <select class="form-control mb-2 foreign-table">
+                              <!-- Tabelas serão preenchidas dinamicamente -->
+                          </select>
+                          <label>Coluna Referenciada:</label>
+                          <select class="form-control mb-2 foreign-column">
+                              <!-- Colunas serão preenchidas dinamicamente -->
+                          </select>
+                        </div>
+                    </div>
+                  <div class="col-2">
+                  <div class="d-flex">
+                      <span title="Excluir coluna" class="btn btn-danger delete-column">&times;</span>
+                      <div class="move-area">
+                          <span title="Mover coluna para cima" class="move-up">&#x25B2;</span>
+                      </div>
+                      <div class="move-area">
+                          <span title="Mover coluna para baixo" class="move-down">&#x25BC;</span>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+            </div>`;
         $("#columnsContainer").append(columnTemplate);
       });
 
