@@ -12,6 +12,7 @@
 
 - Ainda está com bugs na hora de gerar o arquivo SQL
 - Melhorar a UI/UX
+- Criar um SEO top
 
 ### Notas
 
